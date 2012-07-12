@@ -65,8 +65,9 @@ Ext.application({
         var utm = new OpenLayers.Projection("EPSG:32647");
         var indian = new OpenLayers.Projection("EPSG:24047");
         
-        var center = new OpenLayers.LonLat(100,13);
-        var thailand = center.transform(gcs,merc);
+	// DSI location
+        var center = new OpenLayers.LonLat(100.5657899,13.89071588);
+        var dsi = center.transform(gcs,merc);
         
         var ctrl = new OpenLayers.Control.NavigationHistory();
         
@@ -96,9 +97,9 @@ Ext.application({
         action = Ext.create('GeoExt.Action',{
             iconCls: 'zoomfull',
             handler: function(){
-              map.setCenter(thailand, 5);
+              map.setCenter(dsi, 6);
             },
-            tooltip: 'Zoom to Thailand'
+            tooltip: 'Zoom to DSI'
         });
         
         toolbarItems.push(Ext.create('Ext.button.Button', action));
@@ -233,7 +234,7 @@ Ext.application({
             border: true,
             region: "center",
             map: map,
-            center: thailand,
+            center: dsi,
             zoom: 6,
             layers: [
                 new OpenLayers.Layer.Google(
@@ -246,62 +247,62 @@ Ext.application({
                 ),
                 new OpenLayers.Layer.WMS(
                   "เขตอุทยานแห่งชาติ",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'npark', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'npark', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "เขตป่าสงวน",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'rforest', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'rforest', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "ชั้นความสูง",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'contour', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'contour', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "จังหวัด",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_02_province', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_02_province', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "อำเภอ",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_03_amphoe', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_03_amphoe', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "ตำบล",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_04_tambon', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_04_tambon', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "หมู่บ้าน",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_06_muban', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_06_muban', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "ธรณีวิทยา",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_13_geology', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_13_geology', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "แหล่งแร่",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_14_mineral', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_14_mineral', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 new OpenLayers.Layer.WMS(
                   "พื้นที่สปก.",
-                  "http://203.157.240.9/cgi-bin/mapserv",
-                  {map: '/ms521/map/wms-dsi.map', layers: 'no_22_spk', transparent: true},
+                  "http://203.151.201.129/cgi-bin/mapserv",
+                  {map: '/ms603/map/wms-dsi.map', layers: 'no_22_spk', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
                 vectorLayer
@@ -352,7 +353,7 @@ Ext.application({
             border: true,
             region: "west",
             title: "เลือกชั้นข้อมูล",
-            width: 200,
+            width: 250,
             split: true,
             collapsible: true,
             autoScroll: true,
@@ -364,19 +365,18 @@ Ext.application({
         
         earth = Ext.create('Ext.Panel', {
             region: "east"
-            ,width: 300
+            ,width: 500
             ,layout: "fit"
             ,collapsible: true
-            //,collapsed: true
             ,items: [
                 {
                     xtype: 'gxux_googleearthpanel',
                     id: 'googleEarthPanelItem',
                     map: map,
                     altitude: 50,
-                    heading: 0,
-                    tilt: 70,
-                    range: 100
+                    heading: 190,
+                    tilt: 90,
+                    range: 75
                 }
             ]
         });

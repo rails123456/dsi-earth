@@ -439,7 +439,7 @@ Ext.define('GeoExt.ux.GoogleEarthPanel', {
         if (state) {
             if (this.map) {
                 // Vector layer
-                this.earthLayer = new OpenLayers.Layer.Vector("Google Earth Navigation");
+                this.earthLayer = new OpenLayers.Layer.Vector("Google Earth");
                 this.map.addLayer(this.earthLayer);
                 // Camera and lookAt points to display
                 this.features = [
@@ -448,7 +448,7 @@ Ext.define('GeoExt.ux.GoogleEarthPanel', {
                         pointRadius: 6}),
                     new OpenLayers.Feature.Vector(null, {role: 'lookAt'}, {pointRadius: 8,
                         fillColor: '#ff0000'}),
-                    new OpenLayers.Feature.Vector(null, {role: 'camera'}, {externalGraphic: this.baseUrl + '/resources/eye.png',
+                    new OpenLayers.Feature.Vector(null, {role: 'camera'}, {externalGraphic: 'img/eye.png',
                         graphicHeight: 18,
                         graphicWidth: 31,
                         graphicYOffset: -3,
