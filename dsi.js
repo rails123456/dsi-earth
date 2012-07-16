@@ -1,21 +1,3 @@
-/*
- * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
- * 
- * Published under the BSD license.
- * See https://github.com/geoext/geoext2/blob/master/license.txt for the full
- * text of the license.
- */
-
-Ext.Loader.setConfig({
-    enabled: true,
-    disableCaching: false,
-    paths: {
-        GeoExt: "geoext2/src/GeoExt",
-        Ext: "extjs4/src",
-        "GeoExt.ux": "geoext_ux"
-    }
-});
-
 Ext.require([
     'Ext.container.Viewport',
     'Ext.layout.container.Border',
@@ -30,40 +12,10 @@ Ext.require([
     'GeoExt.ux.GoogleEarthPanel',
     'GeoExt.ux.GoogleEarthClick'
 ]);
-
-var mapPanel, tree, store, vectorLayer, overlay;
-
-
-//earth
-var ge;
-google.load("earth", "1");
-
-function init() {
-  google.earth.createInstance('map3d', initCB, failureCB);
-}
-
-function initCB(instance) {
-  ge = instance;
-  ge.getWindow().setVisibility(true);
-}
-
-function failureCB(errorCode) {
-}
-//end earth
-
-
-
 Ext.application({
     name: 'Tree',
-    launch: function() {
-        // earth
-        //google.setOnLoadCallback(init);
-        // end earth
+    launch: function() {      
         
-        var gcs = new OpenLayers.Projection("EPSG:4326");
-        var merc = new OpenLayers.Projection("EPSG:900913");
-        var utm = new OpenLayers.Projection("EPSG:32647");
-        var indian = new OpenLayers.Projection("EPSG:24047");
         
 	// DSI location
         var center = new OpenLayers.LonLat(100.5657899,13.89071588);
@@ -71,9 +23,7 @@ Ext.application({
         
         var ctrl = new OpenLayers.Control.NavigationHistory();
         
-        
-        
-        var map = new OpenLayers.Map({
+        map = new OpenLayers.Map({
             projection: new OpenLayers.Projection("EPSG:900913"),
             displayProjection: new OpenLayers.Projection("EPSG:4326"),
             units: "m",
@@ -83,6 +33,7 @@ Ext.application({
                 new OpenLayers.Control.PanZoomBar(),
                 new OpenLayers.Control.MousePosition(),
                 new OpenLayers.Control.Navigation(),
+                new OpenLayers.Control.LayerSwitcher(),
                 ctrl
             ]
         });
@@ -91,6 +42,21 @@ Ext.application({
             displayInLayerSwitcher: true,
             hideIntree: true
         });
+        
+        markers = new OpenLayers.Layer.Markers( "Markers", {
+            displayInLayerSwitcher: true,
+            hideIntree: true
+        });
+        
+        hili = new OpenLayers.Layer.WMS("Hili",
+            "http://203.151.201.129/cgi-bin/mapserv",
+            {map: '/ms603/map/hili.map', layers: 'hili', 'transparent': true},
+            {isBaseLayer: false, displayInLayerSwitcher: true, singleTile: true, ratio: 1,hideIntree: true }
+        );
+
+          
+        hili.setOpacity(0);
+        
         
         var toolbarItems = [],action;
       
@@ -305,7 +271,9 @@ Ext.application({
                   {map: '/ms603/map/wms-dsi.map', layers: 'no_22_spk', transparent: true},
                   {isBaseLayer: false,visibility: false}
                 ),
-                vectorLayer
+                vectorLayer,
+                markers,
+                hili
             ],
             dockedItems: [{
                 xtype: 'toolbar',
@@ -318,7 +286,6 @@ Ext.application({
             loader: {
                 filter: function(record) {
                     var layer = record.getLayer();
-                    debugger;
                     if (layer.hideIntree || layer.displayInLayerSwitcher == false){
                         return false;
                     }
@@ -348,10 +315,11 @@ Ext.application({
                 ]
             }
         });
-        
+        ///////////////////////////////////
+        //  TREE
+        ///////////////////////////////////
         tree = Ext.create('GeoExt.tree.Panel', {
             border: true,
-            region: "west",
             title: "เลือกชั้นข้อมูล",
             width: 250,
             split: true,
@@ -361,9 +329,27 @@ Ext.application({
             rootVisible: true,
             lines: false
         });
+
         
         
-        earth = Ext.create('Ext.Panel', {
+
+        
+        panel_west = Ext.create("Ext.Panel",{
+            region: 'west',
+            title: '',
+            width: 270,
+            border: true,
+            margins: '5 0 0 5',
+            frame: false,
+            split: true,
+            layout: 'accordion',
+            items: [
+                tree,gps,gps_utm,gps_utm_indian,searchquery
+            ]
+        })
+        
+        
+        /*earth = Ext.create('Ext.Panel', {
             region: "east"
             ,width: 500
             ,layout: "fit"
@@ -379,19 +365,16 @@ Ext.application({
                     range: 75
                 }
             ]
-        });
+        });*/
         
-        
-        
-        
-    
+
         Ext.create('Ext.Viewport', {
             layout: "fit",
             hideBorders: true,
             items: {
                 layout: "border",
                 deferredRender: false,
-                items: [mapPanel, tree,earth]
+                items: [mapPanel, panel_west]
             }
         });
     }
