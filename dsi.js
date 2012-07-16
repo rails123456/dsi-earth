@@ -12,6 +12,7 @@ Ext.require([
     'GeoExt.ux.GoogleEarthPanel',
     'GeoExt.ux.GoogleEarthClick'
 ]);
+
 Ext.application({
     name: 'Tree',
     launch: function() {      
@@ -34,10 +35,13 @@ Ext.application({
                 new OpenLayers.Control.MousePosition(),
                 new OpenLayers.Control.Navigation(),
                 new OpenLayers.Control.LayerSwitcher(),
+                new OpenLayers.Control.Graticule(),
+                new OpenLayers.Control.OverviewMap(),
+                new OpenLayers.Control.ScaleLine({geodesic: true}),
                 ctrl
             ]
         });
-        
+
         vectorLayer = new OpenLayers.Layer.Vector("vector", {
             displayInLayerSwitcher: true,
             hideIntree: true
@@ -170,7 +174,30 @@ Ext.application({
             iconCls: 'info',
             toggleGroup: 'map',
             handler: function(){
-              selectControl.activate();
+              //selectControl.activate();
+              if (vectorLayer.features.length == 1) {
+                lon = vectorLayer.features[0].geometry.x;
+                lat = vectorLayer.features[0].geometry.y;
+                var pt = new OpenLayers.LonLat(lon,lat);
+                pt.transform(merc, gcs);
+                lon = pt.lon;
+                lat = pt.lat;
+                var img_url = 'http://maps.googleapis.com/maps/api/streetview?size=400x400&location=' + lat + ',' + lon;
+                img_url += '&sensor=false&key=AIzaSyC4JHEDJv-4kV39bU2XTpcoe-05rqvGNAk';
+
+                var html = "<center><img src='" + img_url + "' /></center>";
+
+                Ext.create("Ext.window.Window", {
+                  title: "Google Street View",
+                  width: 450,
+                  height: 450,
+                  layout: 'fit',
+                  closable: true,
+                  html: html
+                }).show();
+              }
+              else
+                return false;
             }
         });
         
@@ -329,10 +356,6 @@ Ext.application({
             rootVisible: true,
             lines: false
         });
-
-        
-        
-
         
         panel_west = Ext.create("Ext.Panel",{
             region: 'west',
@@ -348,11 +371,10 @@ Ext.application({
             ]
         })
         
-        
-        /*earth = Ext.create('Ext.Panel', {
-            region: "east"
-            ,width: 500
-            ,layout: "fit"
+        earth = Ext.create('Ext.Panel', {
+            region: 'east'
+            ,width: 400
+            ,layout: 'fit'
             ,collapsible: true
             ,items: [
                 {
@@ -365,16 +387,16 @@ Ext.application({
                     range: 75
                 }
             ]
-        });*/
+        });
         
 
         Ext.create('Ext.Viewport', {
-            layout: "fit",
+            layout: 'fit',
             hideBorders: true,
             items: {
-                layout: "border",
+                layout: 'border',
                 deferredRender: false,
-                items: [mapPanel, panel_west]
+                items: [mapPanel, panel_west, earth]
             }
         });
     }
