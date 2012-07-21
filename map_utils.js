@@ -196,102 +196,121 @@ return false;
 };
 
 var gps = Ext.create("Ext.form.Panel",{
-  id: 'id_gps',
-  labelAlign: 'top',
-  align: 'center',
-  frame: true,
-  title: 'ตำแหน่งพิกัด GPS',
-  bodyStyle: 'padding:5px 5px 5px',
-  items: [{
-    layout:'column',
-    items:[{
-      columnWidth:.3,
-      layout: 'form',
-      items: [{
-        xtype:'textfield',
-        id: 'londd',
-        fieldLabel: 'Lon:DD',
-        labelSeparator: '',
-        name: 'londd',
-        anchor:'95%'
-      },{
-        xtype:'textfield',
-        id: 'latdd',
-        fieldLabel: 'Lat:DD',
-        labelSeparator: '',
-        name: 'latdd',
-        anchor:'95%'
-      }]
-    },{
-      columnWidth:.3,
-      layout: 'form',
-      items: [{
-        xtype:'textfield',
-        id: 'lonmm',
-        fieldLabel: 'Lon:MM',
-        labelSeparator: '',
-        name: 'lonmm',
-        anchor:'95%'
-      },{
-        xtype:'textfield',
-        id: 'latmm',
-        fieldLabel: 'Lat:MM',
-        labelSeparator: '',
-        name: 'latmm',
-        anchor:'95%'
-      }]
-    },{
-      columnWidth:.3,
-      layout: 'form',
-      items: [{
-        xtype:'textfield',
-        id: 'lonss',
-        fieldLabel: 'Lon:SS',
-        labelSeparator: '',
-        name: 'lonss',
-        anchor:'100%'
-      },{
-        xtype:'textfield',
-        id: 'latss',
-        fieldLabel: 'Lat:SS',
-        labelSeparator: '',
-        name: 'latss',
-        anchor:'100%'
-      }]
-    },{
-      columnWidth:.1,
-      layout: 'form',
-      items: [{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'E',
-        anchor:'100%',
-        readOnly: true
-      },{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'N',
-        anchor:'100%',
-        readOnly: true
-      }]
-    }],
-    bodyCfg: {tag: 'center'},
-    buttons: [{
-      text: 'Check',
-      handler: check_gps
-    },{
-      text: 'Clear',
-      handler: function(){
-        gps.getForm().reset();
-        markers.clearMarkers();
-      }
-    },{
-      text: 'Test',
-      handler: test_gps
-    }]
-  }]
+    title: 'ตำแหน่งพิกัด GPS',
+    id: 'id_gps',
+    frame: true,
+    items: [
+        {
+            xtype: 'fieldcontainer',
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelSeparator: '',
+                labelAlign: 'top',
+                margin: '0 5 0 0'
+            },
+            items: [
+                {
+                    xtype:'textfield',
+                    id: 'londd',
+                    fieldLabel: 'Lon:DD',
+                    width:50
+                }
+                ,{
+                    xtype:'textfield',
+                    id: 'lonmm',
+                    fieldLabel: 'Lon:MM',
+                    width:50
+                }
+                ,{
+                    xtype:'textfield',
+                    id: 'lonss',
+                    fieldLabel: 'Lon:SS',
+                    width:50
+                }
+                ,{
+                    xtype: 'displayfield',
+                    fieldLabel: '&nbsp;',
+                    value: 'E'
+                }
+            ]
+        }
+        ,{
+            xtype: 'fieldcontainer',
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelSeparator: '',
+                labelAlign: 'top',
+                margin: '0 5 0 0'
+            },
+            items: [
+                {
+                    xtype:'textfield',
+                    id: 'latdd',
+                    fieldLabel: 'Lat:DD',
+                    width:50
+                    
+                }
+                ,{
+                    xtype:'textfield',
+                    id: 'latmm',
+                    fieldLabel: 'Lat:MM',
+                    width:50
+                    
+                }
+                ,{
+                    xtype:'textfield',
+                    id: 'latss',
+                    fieldLabel: 'Lat:SS',
+                    width:50
+                }
+                ,{
+                    xtype: 'displayfield',
+                    fieldLabel: '&nbsp;',
+                    value: 'N'
+                }
+            ]
+        }
+        ,{
+            xtype: 'fieldcontainer',
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelSeparator: '',
+                labelAlign: 'top',
+                margin: '0 5 0 0'
+            },
+            items: [{
+                    xtype: "button",
+                    text: 'Check',
+                    handler: check_gps,
+                    width: 80
+                },{
+                    xtype: "button",
+                    text: 'Clear',
+                    handler: function(){
+                      gps.getForm().reset();
+                      markers.clearMarkers();
+                    },
+                    width: 80
+                },{
+                    xtype: "button",
+                    text: 'Test',
+                    handler: test_gps,
+                    width: 80
+            }]
+        }
+    ],     
 });
 
 
@@ -353,89 +372,130 @@ var test_gps_utm = function(){
 
 var gps_utm = Ext.create("Ext.form.Panel",{
   id: 'id_gps_utm',
-  labelAlign: 'top',
-  align: 'center',
   frame: true,
   title: 'ตำแหน่งพิกัด GPS (UTM)',
-  bodyStyle: 'padding:5px 5px 5px',
-  width: 250,
-  items: [{
-    layout:'column',
-    items:[{
-      columnWidth:.9,
-      layout: 'form',
-      items: [{
-        xtype:'textfield',
-        id: 'utm_e',
-        fieldLabel: 'Easting:Meters',
-        labelSeparator: '',
-        id: 'utme',
-        anchor:'95%'
-      },{
-        xtype:'textfield',
-        id: 'utm_N',
-        fieldLabel: 'Northing:Meters',
-        labelSeparator: '',
-        id: 'utmn',
-        anchor:'95%'
-      }]
-    },{
-      columnWidth:.1,
-      layout: 'form',
-      items: [{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'E',
-        anchor:'100%',
-        readOnly: true
-      },{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'N',
-        anchor:'100%',
-        readOnly: true
-      }]
-    },{
-      columnWidth: .5,
-      layout: 'form',
-      items: [{
-        xtype: 'radio',
-        id: 'zone47',
-        name: 'zone',
-        fieldLabel: 'Zone 47',
-        checked: true,
-        labelSeparator: '',
-        anchor:'100%'
-      }]
-    },{
-      columnWidth: .5,
-      layout: 'form',
-      items: [{
-        xtype: 'radio',
-        id: 'zone48',
-        name: 'zone',
-        fieldLabel: 'Zone 48',
-        labelSeparator: '',
-        anchor:'100%'
-      }]  
-    }],
-    bodyCfg: {tag: 'center'},
-    buttons: [{
-      text: 'Check',
-      handler: check_gps_utm
-    },{
-      text: 'Clear',
-      handler: function(){
-        gps_utm.getForm().reset();
-        markers.clearMarkers();
-      }
-    },{
-      text: 'Test',
-      handler: test_gps_utm
-    }]
-  }]
+  items: [
+    {
+        xtype: 'fieldcontainer',
+        hideLabel: true,
+        layout: {
+            type: 'hbox',
+            padding:'5',
+            pack:'center'
+        },
+        fieldDefaults: {
+            labelAlign: 'top',
+            margin: '0 5 0 0',
+            labelWidth: 90,
+            labelSeparator: ''
+        },
+        items: [
+            {
+                xtype:'textfield',
+                fieldLabel: 'Easting:Meters',
+                id: 'utme'
+            }
+            ,{
+                xtype: 'displayfield',
+                fieldLabel: '&nbsp;',
+                value: 'E'
+            }
+        ]
+    }
+    ,{
+        xtype: 'fieldcontainer',
+        hideLabel: true,
+        layout: {
+            type: 'hbox',
+            padding:'5',
+            pack:'center'
+        },
+        fieldDefaults: {
+            labelAlign: 'top',
+            margin: '0 5 0 0',
+            labelWidth: 90,
+            labelSeparator: ''
+        },
+        items: [
+            {
+                xtype:'textfield',
+                fieldLabel: 'Northing:Meters',
+                id: 'utmn'
+            }
+            ,{
+                xtype: 'displayfield',
+                fieldLabel: '&nbsp;',
+                value: 'N'
+            }
+        ]
+    }
+    ,{
+        xtype: 'fieldcontainer',
+        hideLabel: true,
+        layout: {
+            type: 'hbox',
+            padding:'5',
+            pack:'center'
+        },
+        fieldDefaults: {
+            labelAlign: 'top',
+            margin: '0 40 0 0',
+            labelWidth: 90,
+            labelSeparator: ''
+        },
+        items: [
+            {
+                xtype: 'radio',
+                id: 'zone47',
+                name: 'zone',
+                fieldLabel: 'Zone 47',
+                checked: true,
+            }
+            ,{
+                xtype: 'radio',
+                id: 'zone48',
+                name: 'zone',
+                fieldLabel: 'Zone 48',
+            }
+        ]
+    }
+    ,{
+        xtype: 'fieldcontainer',
+        layout: {
+            type: 'hbox',
+            padding:'5',
+            pack:'center'
+        },
+        fieldDefaults: {
+            labelSeparator: '',
+            labelAlign: 'top',
+            margin: '0 5 0 0'
+        },
+        items: [
+            {
+                xtype: "button",
+                text: 'Check',
+                handler: check_gps_utm,
+                width: 80
+            }
+            ,{
+                xtype: "button",
+                text: 'Clear',
+                handler: function(){
+                  gps_utm.getForm().reset();
+                  markers.clearMarkers();
+                },
+                width: 80
+            }
+            ,{
+                xtype: "button",
+                text: 'Test',
+                handler: test_gps_utm,
+                width: 80
+            }
+        ]
+    }
+  ]
 });
 
 var check_gps_utm = function(){
@@ -542,88 +602,133 @@ var test_gps_utm_indian = function(){
 }
 
 var gps_utm_indian = Ext.create("Ext.form.Panel",{
-  id: 'id_gps_utm_indian',
-  labelAlign: 'top',
-  align: 'center',
-  frame: true,
-  title: 'ตำแหน่งพิกัด GPS (UTM Indian 1975)',
-  bodyStyle: 'padding:5px 5px 5px',
-  width: 250,
-  items: [{
-    layout:'column',
-    items:[{
-      columnWidth:.9,
-      layout: 'form',
-      items: [{
-        xtype:'textfield',
-        fieldLabel: 'Easting:Meters',
-        labelSeparator: '',
-        id: 'utmei',
-        anchor:'95%'
-      },{
-        xtype:'textfield',
-        fieldLabel: 'Northing:Meters',
-        labelSeparator: '',
-        id: 'utmni',
-        anchor:'95%'
-      }]
-    },{
-      columnWidth:.1,
-      layout: 'form',
-      items: [{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'E',
-        anchor:'100%',
-        readOnly: true
-      },{
-        xtype: 'textfield',
-        fieldLabel: '',
-        labelSeparator: '',
-        value: 'N',
-        anchor:'100%',
-        readOnly: true
-      }]
-    },{
-      columnWidth: .5,
-      layout: 'form',
-      items: [{
-        xtype: 'radio',
-        id: 'zone47i',
-        name: 'zonei',
-        fieldLabel: 'Zone 47',
-        checked: true,
-        labelSeparator: '',
-        anchor:'100%'
-      }]
-    },{
-      columnWidth: .5,
-      layout: 'form',
-      items: [{
-        xtype: 'radio',
-        id: 'zone48i',
-        name: 'zonei',
-        fieldLabel: 'Zone 48',
-        labelSeparator: '',
-        anchor:'100%'
-      }]  
-    }],
-    bodyCfg: {tag: 'center'},
-    buttons: [{
-      text: 'Check',
-      handler: check_gps_utm_indian
-    },{
-      text: 'Clear',
-      handler: function(){
-        gps_utm_indian.getForm().reset();
-        markers.clearMarkers();
-      }
-    },{
-      text: 'Test',
-      handler: test_gps_utm_indian
-    }]
-  }]
+    id: 'id_gps_utm_indian',
+    frame: true,
+    title: 'ตำแหน่งพิกัด GPS (UTM Indian 1975)',
+    bodyStyle: 'padding:5px 5px 5px',
+    items: [
+        {
+            xtype: 'fieldcontainer',
+            hideLabel: true,
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelAlign: 'top',
+                margin: '0 5 0 0',
+                labelWidth: 90,
+                labelSeparator: ''
+            },
+            items: [
+                {
+                    xtype:'textfield',
+                    fieldLabel: 'Easting:Meters',
+                    id: 'utmei'
+                }
+                ,{
+                    xtype: 'displayfield',
+                    fieldLabel: '&nbsp;',
+                    value: 'E'
+                }
+            ]
+        }
+        ,{
+            xtype: 'fieldcontainer',
+            hideLabel: true,
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelAlign: 'top',
+                margin: '0 5 0 0',
+                labelWidth: 90,
+                labelSeparator: ''
+            },
+            items: [
+                {
+                    xtype:'textfield',
+                    fieldLabel: 'Easting:Meters',
+                    id: 'utmni'
+                }
+                ,{
+                    xtype: 'displayfield',
+                    fieldLabel: '&nbsp;',
+                    value: 'N'
+                }
+            ]
+        }
+        ,{
+        xtype: 'fieldcontainer',
+        hideLabel: true,
+        layout: {
+            type: 'hbox',
+            padding:'5',
+            pack:'center'
+        },
+        fieldDefaults: {
+            labelAlign: 'top',
+            margin: '0 40 0 0',
+            labelWidth: 90,
+            labelSeparator: ''
+        },
+        items: [
+            {
+                xtype: 'radio',
+                id: 'zone47i',
+                name: 'zonei',
+                fieldLabel: 'Zone 47',
+                checked: true,
+            }
+            ,{
+                xtype: 'radio',
+                id: 'zone48i',
+                name: 'zonei',
+                fieldLabel: 'Zone 48',
+            }
+        ]
+    }
+        ,{
+            xtype: 'fieldcontainer',
+            layout: {
+                type: 'hbox',
+                padding:'5',
+                pack:'center'
+            },
+            fieldDefaults: {
+                labelSeparator: '',
+                labelAlign: 'top',
+                margin: '0 5 0 0'
+            },
+            items: [
+                {
+                    xtype: "button",
+                    text: 'Check',
+                    handler: check_gps_utm_indian,
+                    width: 80
+                }
+                ,{
+                    xtype: "button",
+                    text: 'Clear',
+                    handler: function(){
+                      gps_utm_indian.getForm().reset();
+                      markers.clearMarkers();
+                    },
+                    width: 80
+                }
+                ,{
+                    xtype: "button",
+                    text: 'Test',
+                    handler: test_gps_utm_indian,
+                    width: 80
+                }
+            ]
+        }
+    ]
+
 });
 
 /////////////////////////////////
@@ -770,6 +875,7 @@ var searchquery = Ext.create("Ext.form.Panel",{
     ,labelWidth: 30
     ,items: [ myTextField ]
     ,bodyCfg: {tag: 'center'}
+    ,frame: true
     ,buttons: [{
       text: 'Search'
       ,id: 'btn_search'
